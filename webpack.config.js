@@ -1,4 +1,5 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     entry: {//入口
         index:'./src/index.js',
@@ -11,7 +12,12 @@ module.exports = {
     module: {  // 处理对应模块
 
     },
-    plugins: [],  // 插件配置
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: "./src/index.html", // // 在src目录下创建一个index.html页面当做模板来用
+            hash: true//// 会在打包好的bundle.js后面加上hash串
+        })
+    ],  // 插件配置
     devServer: {   // 开发服务器配置
 
     },
