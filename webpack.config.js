@@ -1,8 +1,11 @@
 const path = require('path')
 module.exports = {
-    entry: './src/index.js',  //入口
+    entry: {//入口
+        index:'./src/index.js',
+        login:'./src/login.js',
+    },
     output: { // 出口
-        filename: "bundle.js",
+        filename: "[name].js",
         path: path.resolve('dist')
     },
     module: {  // 处理对应模块
