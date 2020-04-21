@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -10,6 +11,14 @@ module.exports = {
     output: { // 出口
         filename: "[name].js",
         path: path.resolve('dist')
+    },
+    resolve: {
+        // 别名
+        alias: {
+            $: './src/js/jquery.js'
+        },
+        // 省略后缀
+        extensions: ['.js', '.json', '.css']
     },
     module: {  // 处理对应模块
         rules: [
@@ -66,10 +75,14 @@ module.exports = {
         // 拆分后会把css文件放到dist目录下的css/style.css
         new ExtractTextWebpackPlugin('css/style.css'),
         // 打包前先清空
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        // 热更新，热更新不是刷新
+        new webpack.HotModuleReplacementPlugin()
     ],  // 插件配置
     devServer: {   // 开发服务器配置
-
+        contentBase: './dist',
+        hot: true,
+        port: 3000
     },
     mode: "development"   // 模式配置
 }
