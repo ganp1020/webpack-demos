@@ -3,4 +3,5 @@ html,body{
     height: 100%;
     background-image: url(../images/d6c5a60817807bf5ee00bbf199c4b304.jpg);
     background-size: cover;
+    display: flex;
 }

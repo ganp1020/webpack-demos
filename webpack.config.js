@@ -15,7 +15,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ExtractTextWebpackPlugin.extract({
-                    use: 'css-loader',
+                    use: ['css-loader', 'postcss-loader'],
                     publicPath: '../'
                 })
             },
