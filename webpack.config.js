@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {//入口
@@ -12,6 +13,19 @@ module.exports = {
     },
     module: {  // 处理对应模块
         rules: [
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader',
+                    // 配置选项里的presets
+                    // 包含ES6还有之后的版本和那些仅仅是草案的内容
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                },
+                include: /src/,          // 只转化src目录下的js
+                exclude: /node_modules/  // 排除掉node_modules，优化打包速度
+            },
             {
                 test: /\.css$/,
                 use: ExtractTextWebpackPlugin.extract({
@@ -50,7 +64,9 @@ module.exports = {
             chunks: ['index']// 对应js文件
         }),
         // 拆分后会把css文件放到dist目录下的css/style.css
-        new ExtractTextWebpackPlugin('css/style.css')
+        new ExtractTextWebpackPlugin('css/style.css'),
+        // 打包前先清空
+        new CleanWebpackPlugin()
     ],  // 插件配置
     devServer: {   // 开发服务器配置
 
