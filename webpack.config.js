@@ -1,6 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-let ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: {//入口
@@ -15,9 +15,26 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ExtractTextWebpackPlugin.extract({
-                    // 将css用link的方式引入就不再需要style-loader了
-                    use: 'css-loader'
+                    use: 'css-loader',
+                    publicPath: '../'
                 })
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192,    // 小于8k的图片自动转成base64格式，并且不会存在实体图片
+                            outputPath: 'images/',   // 图片打包后存放的目录
+                            esModule: false
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(htm|html)$/,
+                use: 'html-withimg-loader'
             }
         ]
     },
